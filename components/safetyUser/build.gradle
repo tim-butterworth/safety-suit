@@ -1,0 +1,28 @@
+group 'hazmat'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'net.ltgt.apt-idea'
+
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "net.ltgt.gradle:gradle-apt-plugin:0.13"
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly(project(":components:safetyProcessor"))
+    apt(project(":components:safetyProcessor"))
+
+    compileOnly 'org.immutables:value:2.5.5'
+    apt 'org.immutables:value:2.5.5'
+}

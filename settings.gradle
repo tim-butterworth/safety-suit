@@ -1,0 +1,4 @@
+rootProject.name = 'safety-suit'
+
+include('components:safetyProcessor')
+include('components:safetyUser')
