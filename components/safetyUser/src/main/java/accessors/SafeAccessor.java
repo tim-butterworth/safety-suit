@@ -1,12 +1,12 @@
-package verifyAnnotations;
+package accessors;
 
 import annotations.SafetyAccessor;
-import annotations.SafetySuite;
+import annotations.SafetySuit;
 import samples.exampleObj.SuperGiantObject;
 
 import java.util.Optional;
 
-@SafetySuite
+@SafetySuit
 public interface SafeAccessor {
 
     @SafetyAccessor(path = {

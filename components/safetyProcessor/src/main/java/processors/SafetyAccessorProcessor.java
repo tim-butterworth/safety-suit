@@ -1,23 +1,7 @@
-/*
- * Copyright (C) 2015 Hannes Dorfmann
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package processors;
 
 import annotations.SafetyAccessor;
-import annotations.SafetySuite;
+import annotations.SafetySuit;
 import com.google.auto.service.AutoService;
 
 import javax.annotation.processing.AbstractProcessor;
@@ -33,18 +17,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-/**
- * Annotation Processor for @Factory annotation
- *
- * @author Hannes Dorfmann
- */
 @AutoService(Processor.class)
 public class SafetyAccessorProcessor extends AbstractProcessor {
 
     @Override
     public Set<String> getSupportedAnnotationTypes() {
         Set<String> annotations = new LinkedHashSet<>();
-        annotations.add(SafetySuite.class.getCanonicalName());
+        annotations.add(SafetySuit.class.getCanonicalName());
         return annotations;
     }
 
@@ -55,11 +34,13 @@ public class SafetyAccessorProcessor extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        // Scan classes
         List<AccessorDescription> accessorDescriptionList = new LinkedList<>();
         List<String> imports = new LinkedList<>();
 
-        for (Element annotatedElement : roundEnv.getElementsAnnotatedWith(SafetySuite.class)) {
+        for (Element annotatedElement : roundEnv.getElementsAnnotatedWith(SafetySuit.class)) {
+            String fullyQualified = annotatedElement.asType().toString() + "SafetySuit";
+            int lastIndexOf = fullyQualified.lastIndexOf(".");
+            String className = fullyQualified.substring(lastIndexOf + 1);
             String packageName = annotatedElement.getEnclosingElement().asType().toString();
             List<? extends Element> enclosedElements = annotatedElement.getEnclosedElements();
 
@@ -109,7 +90,7 @@ public class SafetyAccessorProcessor extends AbstractProcessor {
 
             JavaFileObject sourceFile = null;
             try {
-                sourceFile = processingEnv.getFiler().createSourceFile(packageName + ".FancyClass");
+                sourceFile = processingEnv.getFiler().createSourceFile(fullyQualified);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -148,7 +129,7 @@ public class SafetyAccessorProcessor extends AbstractProcessor {
                 br
                         .append(String.format("package %s;\n", packageName))
                         .append(imports.stream().collect(Collectors.joining("\n")))
-                        .append("\npublic class FancyClass {")
+                        .append(String.format("\npublic class %s {", className))
                         .append("")
                         .append(methods)
                         .append("}");
