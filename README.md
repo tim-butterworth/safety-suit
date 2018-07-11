@@ -74,3 +74,16 @@ public interface WrappingObjectAccessor {
 
 ```
 
+To run the app go to the root level of the project and run
+
+`./gradlew clean build`
+
+There should be a file:
+
+`<project-root>/components/safetyUser/build/generated/source/apt/main/accessors/SafeAccessorSafetySuit.java`
+
+Possible future enhancements:
+
+1. support list access
+1. support map access
+1. use a templating library for code generation
