@@ -9,4 +9,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.SOURCE)
 public @interface SafetyAccessor {
     String[] path();
+    Class<?> input();
+    Class<?> output();
+    String name();
 }

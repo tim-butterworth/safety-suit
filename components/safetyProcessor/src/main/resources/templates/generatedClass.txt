@@ -1,0 +1,18 @@
+package ${package};
+
+<#list imports as import><#t>
+import ${import};
+</#list><#t>
+
+public class ${className} {
+<#list methods as method>
+   public Optional<${method.returnType}> ${method.name}(${method.argumentType} ${method.argumentName}) {
+       return Optional.ofNullable(${method.argumentName})
+       <#list method.dereferences as dereference><#t>
+           .map((${dereference.parameterName}) -> ${dereference.parameterName}.${dereference.methodName})<#if dereference?is_last>;</#if>
+       <#else><#t>
+       ;
+       </#list><#t>
+   }
+</#list>
+}

@@ -7,6 +7,8 @@ public class AccessorDescription {
     private String argumentType;
     private String[] path;
     private String returnType;
+    private String argumentTypeImport;
+    private String returnTypeImport;
 
     public String getMethodName() {
         return methodName;
@@ -46,5 +48,21 @@ public class AccessorDescription {
 
     public String getReturnType() {
         return returnType;
+    }
+
+    public void setArgumentTypeImport(String argumentTypeImport) {
+        this.argumentTypeImport = argumentTypeImport;
+    }
+
+    public String getArgumentTypeImport() {
+        return argumentTypeImport;
+    }
+
+    public void setReturnTypeImport(String returnTypeImport) {
+        this.returnTypeImport = returnTypeImport;
+    }
+
+    public String getReturnTypeImport() {
+        return returnTypeImport;
     }
 }
